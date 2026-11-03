@@ -1,0 +1,15 @@
+{
+  "name": "ringue-politico",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Jogo de boxe e sátira política inspirado nos clássicos arcade.",
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090c15">
+  <meta name="description" content="Punhos da República: boxe arcade e sátira política. Escolha Lula, Janones ou Jones Manoel e dispute o Cinturão Popular.">
+  <title>Punhos da República — Boxe Arcade</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f1bd43'/%3E%3Cpath d='M12 29c0-9 7-16 16-16h12c7 0 12 5 12 12v14c0 8-6 13-14 13H25c-8 0-13-6-13-13z' fill='%23b93635'/%3E%3Cpath d='M22 13V5h8v9M38 14V6h8v10' stroke='%23090c15' stroke-width='4'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main id="app">
+    <section id="game-shell" aria-label="Punhos da República">
+      <canvas id="game" width="1280" height="720" aria-label="Ringue de boxe"></canvas>
+      <div class="screen-texture" aria-hidden="true"></div>
+
+      <header id="fight-hud" class="hidden">
+        <div class="fighter-hud player-hud">
+          <div class="fighter-line"><strong id="player-name">LULA</strong><span>DESAFIANTE</span></div>
+          <div class="health-track"><div id="player-health" class="health-fill"></div></div>
+          <div class="resource-row"><span>FÔLEGO</span><div class="resource-track"><i id="stamina-fill"></i></div></div>
+        </div>
+        <div class="round-hud"><span id="round-label">ROUND 1</span><strong id="fight-timer">01:15</strong><small>VALE O CINTURÃO</small></div>
+        <div class="fighter-hud enemy-hud">
+          <div class="fighter-line"><span>CAMPEÃO</span><strong id="enemy-name">JAIR</strong></div>
+          <div class="health-track"><div id="enemy-health" class="health-fill"></div></div>
+          <div class="enemy-record"><span id="enemy-title">O CAMPEÃO</span></div>
+        </div>
+      </header>
+
+      <div id="special-hud" class="hidden"><div class="special-label"><span>GOLPE ESPECIAL</span><strong id="special-name">UNIÃO NOS PUNHOS</strong></div><div class="special-track"><div id="special-fill"></div></div><small id="special-hint">ACERTE E DESVIE PARA CARREGAR</small></div>
+      <div id="announcement" aria-live="assertive"></div>
+      <div id="toast" role="status"></div>
+      <div id="keyboard-help" class="hidden"><span>A D <b>ESQUIVA</b></span><span>S <b>DEFESA</b></span><span>J <b>JAB</b></span><span>K <b>DIRETO</b></span><span>ESPAÇO <b>ESPECIAL</b></span></div>
+
+      <div class="corner-controls">
+        <button id="pause-button" class="icon-button hidden" type="button" aria-label="Pausar luta">II</button>
+        <button id="sound-button" class="icon-button" type="button" aria-label="Desativar som">SOM</button>
+      </div>
+
+      <section id="menu-screen" class="screen">
+        <div class="menu-layout">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="live-dot"></span> APRESENTAÇÃO OFICIAL · SÁTIRA FICTÍCIA</div>
+            <h1>PUNHOS<br><em>DA REPÚBLICA</em></h1>
+            <p class="tagline">Suba no ringue. Leia o golpe.<br>E deixe a democracia decidir nos pontos.</p>
+            <div class="genre-tags"><span>BOXE ARCADE</span><span>TIMING</span><span>8 DESAFIOS</span></div>
+            <div class="menu-actions"><button id="start-button" class="primary-button" type="button"><span>ESCOLHER LUTADOR</span><b>→</b></button><button id="how-button" class="text-button" type="button">COMO LUTAR</button></div>
+            <p id="progress-note" class="best-score">CIRCUITO POPULAR · 1 / 8 LIBERADOS</p>
+          </div>
+          <aside class="fight-poster" aria-label="Pôster da luta">
+            <div class="poster-top"><span>AO VIVO</span><small>GINÁSIO DA REPÚBLICA</small></div>
+            <div class="poster-title">CINTURÃO<br><strong>POPULAR</strong></div>
+            <div class="poster-versus"><div><canvas id="poster-player" width="180" height="210"></canvas><b>LULA</b></div><span>VS</span><div><canvas id="poster-enemy" width="180" height="210"></canvas><b>JAIR</b></div></div>
+            <div class="poster-details"><span>SÁBADO · 20H</span><b>1 ROUND · SEM APPELO</b></div>
+            <div class="poster-stamp">NO RINGUE,<br>TODO VOTO É JAB.</div>
+          </aside>
+        </div>
+        <footer class="menu-footer">INSPIRADO NOS CLÁSSICOS DE BOXE · ARTE ORIGINAL · SEM PATROCÍNIO DO CARTÓRIO</footer>
+      </section>
+
+      <section id="fighter-screen" class="screen hidden">
+        <div class="selection-layout">
+          <div class="eyebrow">CANTO VERMELHO</div><h2>Escolha seu <em>desafiante.</em></h2><p>Três estilos. Um cinturão. Selecione o lutador que combina com você.</p>
+          <div id="fighter-grid" class="fighter-grid" role="radiogroup" aria-label="Escolha seu lutador"></div>
+          <div class="selection-footer"><div><span class="micro">VANTAGEM</span><strong id="selected-fighter-perk">LULA · +15 DE VIDA</strong></div><button id="confirm-fighter-button" class="primary-button" type="button"><span>VER O CIRCUITO</span><b>→</b></button></div>
+          <button id="fighter-back-button" class="text-button" type="button">VOLTAR AO MENU</button>
+        </div>
+      </section>
+
+      <section id="circuit-screen" class="screen hidden">
+        <div class="circuit-layout">
+          <div class="circuit-heading"><div><div class="eyebrow">CIRCUITO POPULAR</div><h2>A caminho do <em>cinturão.</em></h2></div><div id="circuit-fighter" class="circuit-fighter"></div></div>
+          <div id="opponent-grid" class="opponent-grid" role="list" aria-label="Adversários do circuito"></div>
+          <div class="circuit-bottom"><p id="opponent-tactic">Selecione um adversário liberado para ver a estratégia.</p><button id="circuit-back-button" class="text-button" type="button">TROCAR LUTADOR</button></div>
+        </div>
+      </section>
+
+      <section id="how-screen" class="screen hidden">
+        <div class="modal wide-modal"><div class="eyebrow">MANUAL DO CANTO VERMELHO</div><h2>Não é só sair <em>batendo.</em></h2>
+          <div class="instruction-grid">
+            <article><span>01</span><div class="key-art">A · D</div><h3>DESVIE</h3><p>Use A e D no momento do golpe. Uma esquiva perfeita deixa o adversário aberto.</p></article>
+            <article><span>02</span><div class="key-art">S</div><h3>DEFENDA</h3><p>Segure S para reduzir o dano. Uppers vermelhos não podem ser defendidos.</p></article>
+            <article><span>03</span><div class="key-art">J · K</div><h3>CONTRA-ATAQUE</h3><p>J é o jab rápido; K é o direto pesado. Golpeie durante os sinais para ganhar mais energia.</p></article>
+          </div>
+          <p class="special-help">Com a barra cheia, pressione ESPAÇO para soltar o golpe especial.</p>
+          <button id="how-start-button" class="primary-button" type="button"><span>ESTOU PRONTO</span><b>→</b></button><button id="how-back-button" class="text-button" type="button">VOLTAR</button>
+        </div>
+      </section>
+
+      <section id="pause-screen" class="screen hidden"><div class="modal compact-modal"><div class="eyebrow">TEMPO TÉCNICO</div><h2>Luta pausada.</h2><p>O juiz olhou para o outro lado. Respire e volte com a guarda alta.</p><button id="resume-button" class="primary-button" type="button"><span>VOLTAR AO RINGUE</span><b>→</b></button><button id="restart-button" class="text-button" type="button">RECOMEÇAR LUTA</button><button id="pause-circuit-button" class="text-button muted" type="button">SAIR PARA O CIRCUITO</button></div></section>
+
+      <section id="result-screen" class="screen hidden"><div class="modal result-modal"><div id="result-eyebrow" class="eyebrow">VITÓRIA POR NOCAUTE</div><h2 id="result-title">O povo venceu.</h2><p id="result-message">O cinturão está mais perto. O próximo desafiante já aquece os punhos.</p><div class="result-stats"><div><span class="micro">PONTOS</span><strong id="result-score">000000</strong></div><div><span class="micro">VIDA RESTANTE</span><strong id="result-health">75%</strong></div><div><span class="micro">MELHOR COMBO</span><strong id="result-combo">0</strong></div></div><button id="next-button" class="primary-button" type="button"><span>PRÓXIMA LUTA</span><b>→</b></button><button id="rematch-button" class="text-button" type="button">REVANCHE</button><button id="result-circuit-button" class="text-button muted" type="button">VOLTAR AO CIRCUITO</button></div></section>
+
+      <div id="touch-controls" class="hidden" aria-hidden="true"><div class="touch-defense"><button data-action="left" type="button">←<small>ESQUIVA</small></button><button data-action="block" type="button">S<small>DEFESA</small></button><button data-action="right" type="button">→<small>ESQUIVA</small></button></div><div class="touch-punches"><button data-action="special" class="touch-special" type="button">★<small>ESPECIAL</small></button><button data-action="jab" type="button">J<small>JAB</small></button><button data-action="cross" class="touch-cross" type="button">K<small>DIRETO</small></button></div></div>
+      <section id="rotate-screen" class="screen"><div class="modal compact-modal"><div class="rotate-phone" aria-hidden="true"></div><h2>Vire o aparelho.</h2><p>Para enxergar os dois cantos do ringue, jogue na horizontal.</p></div></section>
+    </section>
+    <p class="legal-note">Jogo de sátira política e boxe fictício. Nenhuma luta real foi agendada no plenário.</p>
+  </main>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
