@@ -9,13 +9,13 @@ const canvas=$('#game'),sound=new SoundSystem(),coarse=matchMedia('(pointer:coar
 const screens={menu:$('#menu-screen'),fighter:$('#fighter-screen'),circuit:$('#circuit-screen'),how:$('#how-screen'),pause:$('#pause-screen'),result:$('#result-screen')};
 const fightUi=[$('#fight-hud'),$('#special-hud'),$('#keyboard-help'),$('#pause-button')];
 let selectedFighter=DEFAULT_FIGHTER,unlocked=0,toastTimer,announceTimer;
-try{unlocked=clamp(Number(localStorage.getItem('punhos-republica.unlocked')||0),0,OPPONENTS.length-1);sound.muted=localStorage.getItem('punhos-republica.muted')==='true'}catch{/* armazenamento indisponível */}
+try{unlocked=clamp(Number(localStorage.getItem('ringue-zero.unlocked')||0),0,OPPONENTS.length-1);sound.muted=localStorage.getItem('ringue-zero.muted')==='true'}catch{/* armazenamento indisponível */}
 
 function hideScreens(){Object.values(screens).forEach((screen)=>screen.classList.add('hidden'))}
 function showFightUi(show){fightUi.forEach((element)=>element.classList.toggle('hidden',!show));$('#touch-controls').classList.toggle('hidden',!show||!coarse)}
 function toast(message){clearTimeout(toastTimer);$('#toast').textContent=message;$('#toast').classList.add('show');toastTimer=setTimeout(()=>$('#toast').classList.remove('show'),1700)}
 function announce(message,color='gold'){clearTimeout(announceTimer);const el=$('#announcement');el.textContent=message;el.className=color;announceTimer=setTimeout(()=>{el.textContent=''},message==='NOCAUTE!'?2100:750)}
-function updateProgressNote(){$('#progress-note').textContent=`CIRCUITO POPULAR · ${unlocked+1} / ${OPPONENTS.length} LIBERADOS`}
+function updateProgressNote(){$('#progress-note').textContent=`CIRCUITO ZERO · ${unlocked+1} / ${OPPONENTS.length} LIBERADOS`}
 function portrait(canvas,fighter,scale){drawBoxer(canvas.getContext('2d'),fighter,{state:'idle'},canvas.width/2,canvas.height-5,scale,0)}
 
 const game=new Game(canvas,sound,{
@@ -34,10 +34,10 @@ const game=new Game(canvas,sound,{
     $('#result-score').textContent=String(result.score).padStart(6,'0');$('#result-health').textContent=`${Math.round(result.health*100)}%`;$('#result-combo').textContent=result.combo;
     if(result.won){
       unlocked=Math.max(unlocked,Math.min(OPPONENTS.length-1,result.opponentIndex+1));
-      try{localStorage.setItem('punhos-republica.unlocked',String(unlocked))}catch{/* sem persistência */}
+       try{localStorage.setItem('ringue-zero.unlocked',String(unlocked))}catch{/* sem persistência */}
       $('#result-eyebrow').textContent=result.reason==='ko'?'VITÓRIA POR NOCAUTE':'VITÓRIA POR DECISÃO';
-      $('#result-title').textContent=result.last?'Cinturão conquistado!':'O povo venceu.';
-      $('#result-message').textContent=result.last?'Você venceu todos os oito adversários e levou o Cinturão Popular para casa.':'O cinturão está mais perto. O próximo adversário já aquece os punhos.';
+       $('#result-title').textContent=result.last?'Campeão da Arena Zero!':'Vitória no ringue.';
+       $('#result-message').textContent=result.last?'Você venceu os oito desafios e conquistou o circuito.':'O cinturão está mais perto. O próximo adversário já aquece os punhos.';
     }else{
       $('#result-eyebrow').textContent=result.reason==='draw'?'EMPATE NOS PONTOS':'DERROTA NO RINGUE';
       $('#result-title').textContent=result.reason==='decision'?'Decisão contestada.':'Guarda baixa, campeão.';
@@ -91,7 +91,7 @@ $('#next-button').addEventListener('click',()=>startFight(Math.min(OPPONENTS.len
 $('#pause-circuit-button').addEventListener('click',openCircuit);$('#result-circuit-button').addEventListener('click',openCircuit);
 
 function updateSoundButton(){$('#sound-button').textContent=sound.muted?'MUDO':'SOM';$('#sound-button').setAttribute('aria-label',sound.muted?'Ativar som':'Desativar som')}
-function toggleSound(){sound.setMuted(!sound.muted);try{localStorage.setItem('punhos-republica.muted',String(sound.muted))}catch{/* sem persistência */}updateSoundButton();if(!sound.muted)sound.sfx('click')}
+function toggleSound(){sound.setMuted(!sound.muted);try{localStorage.setItem('ringue-zero.muted',String(sound.muted))}catch{/* sem persistência */}updateSoundButton();if(!sound.muted)sound.sfx('click')}
 $('#sound-button').addEventListener('click',toggleSound);updateSoundButton();
 
 function resetInput(){game.setBlock(false)}

@@ -26,8 +26,8 @@ test('decisão por pontos e relógio funcionam', () => {
 });
 
 test('elenco jogável e circuito têm todos os personagens pedidos', () => {
-  assert.deepEqual(FIGHTERS.map((fighter) => fighter.id), ['lula', 'janones', 'jones']);
-  for (const id of ['carlos', 'flavio', 'michelle', 'nicolas', 'eduarda', 'eduardo', 'pavanato', 'jair']) {
+  assert.deepEqual(FIGHTERS.map((fighter) => fighter.id), ['rafa', 'maya', 'dante']);
+  for (const id of ['leo', 'nina', 'caio', 'bia', 'theo', 'enzo', 'bruno', 'max']) {
     assert.ok(OPPONENTS.some((opponent) => opponent.id === id));
   }
   assert.equal(OPPONENTS.length, 8);

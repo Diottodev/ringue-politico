@@ -37,8 +37,8 @@ export function createArena() {
   }
   ctx.fillStyle='#0b111dcc';ctx.fillRect(0,287,1280,66);
   ctx.fillStyle='#b63835';ctx.fillRect(0,292,1280,4);
-  text(ctx,'CINTURÃO POPULAR',640,319,29,'#e6c158');
-  text(ctx,'GINÁSIO DA REPÚBLICA · TRANSMISSÃO NACIONAL',640,342,9,'#d5d8d099');
+  text(ctx,'CIRCUITO ZERO',640,319,29,'#e6c158');
+  text(ctx,'ARENA ZERO · DESAFIO DE BOXE',640,342,9,'#d5d8d099');
 
   ctx.fillStyle='#111925';ctx.fillRect(125,250,18,320);ctx.fillRect(1137,250,18,320);
   ctx.fillStyle='#b83e3a';rounded(ctx,116,270,36,76,5);ctx.fill();rounded(ctx,1128,270,36,76,5);ctx.fill();
@@ -53,7 +53,7 @@ export function createArena() {
   for(let x=100;x<1280;x+=120){ctx.beginPath();ctx.moveTo(640+(x-640)*.7,330);ctx.lineTo(x,720);ctx.stroke()}
   ctx.translate(640,535);ctx.scale(1.5,.62);ctx.rotate(-.05);
   ctx.strokeStyle='#e1d8b51c';ctx.lineWidth=7;ctx.beginPath();ctx.arc(0,0,175,0,TAU);ctx.stroke();
-  text(ctx,'PUNHOS',0,-28,48,'#e1d8b51c');text(ctx,'DA REPÚBLICA',0,25,32,'#e1d8b51c');
+  text(ctx,'RINGUE',0,-28,48,'#e1d8b51c');text(ctx,'ZERO',0,25,32,'#e1d8b51c');
   ctx.restore();
 
   for(const [y,color] of [[260,'#d8d9d2'],[292,'#b73c3b'],[326,'#d8d9d2']]){
@@ -142,14 +142,13 @@ export function drawBoxer(ctx,fighter,pose,x,y,scale=1,time=0){
   ctx.fillStyle=fighter.trunks;ctx.beginPath();ctx.moveTo(-48,-121);ctx.lineTo(48,-121);ctx.lineTo(42,-52);ctx.lineTo(5,-52);ctx.lineTo(0,-82);ctx.lineTo(-5,-52);ctx.lineTo(-42,-52);ctx.closePath();ctx.fill();
   ctx.fillStyle=fighter.trunksLight;ctx.beginPath();ctx.moveTo(-45,-116);ctx.lineTo(-12,-116);ctx.lineTo(-8,-57);ctx.lineTo(-39,-57);ctx.closePath();ctx.fill();
   ctx.fillStyle=fighter.shortsStripe||'#e7d9b8';ctx.fillRect(-48,-118,96,10);ctx.fillRect(-45,-108,7,49);ctx.fillRect(38,-108,7,49);
-  text(ctx,fighter.id==='lula'||fighter.id==='janones'||fighter.id==='jones'?'13':'BR',0,-113,8,fighter.shortsStripe||'#e7d9b8');
+  text(ctx,fighter.mark||'RZ',0,-113,8,fighter.shortsStripe||'#e7d9b8');
 
   ctx.fillStyle=fighter.skin;ctx.beginPath();ctx.moveTo(-39,-178);ctx.quadraticCurveTo(-50,-141,-43,-103);ctx.lineTo(43,-103);ctx.quadraticCurveTo(50,-141,39,-178);ctx.quadraticCurveTo(0,-194,-39,-178);ctx.closePath();ctx.fill();
   ctx.fillStyle=fighter.skinShadow||'#0003';ctx.beginPath();ctx.moveTo(12,-182);ctx.quadraticCurveTo(46,-174,42,-105);ctx.lineTo(17,-105);ctx.closePath();ctx.fill();
   ctx.fillStyle=fighter.trunks;ctx.beginPath();ctx.moveTo(-40,-176);ctx.lineTo(-22,-181);ctx.lineTo(-13,-135);ctx.lineTo(13,-135);ctx.lineTo(22,-181);ctx.lineTo(40,-176);ctx.lineTo(43,-112);ctx.lineTo(-43,-112);ctx.closePath();ctx.fill();
   ctx.fillStyle=fighter.trunksLight;ctx.beginPath();ctx.moveTo(-38,-171);ctx.lineTo(-24,-176);ctx.lineTo(-17,-137);ctx.lineTo(-35,-124);ctx.closePath();ctx.fill();
-  if(fighter.id==='lula'||fighter.id==='janones'||fighter.id==='jones')star(ctx,0,-151,12,'#eee3cf');
-  else text(ctx,'BR',0,-151,14,fighter.shortsStripe||'#e7d9b8');
+  text(ctx,fighter.mark||'RZ',0,-151,12,fighter.shortsStripe||'#e7d9b8');
 
   let left={x:-50,y:-151,s:1,a:-.25},right={x:50,y:-151,s:1,a:.25};
   if(state==='block'){left={x:-23,y:-199,s:1.1,a:-.1};right={x:23,y:-199,s:1.1,a:.1}}
@@ -185,7 +184,7 @@ export function drawPlayerBack(ctx,fighter,pose,x,y,scale=1,time=0){
   ctx.fillStyle=fighter.skin;ctx.beginPath();ctx.moveTo(-43,-184);ctx.quadraticCurveTo(-55,-146,-44,-111);ctx.lineTo(44,-111);ctx.quadraticCurveTo(55,-146,43,-184);ctx.closePath();ctx.fill();
   ctx.fillStyle=fighter.trunks;ctx.beginPath();ctx.moveTo(-42,-181);ctx.lineTo(-24,-183);ctx.lineTo(-18,-142);ctx.lineTo(18,-142);ctx.lineTo(24,-183);ctx.lineTo(42,-181);ctx.lineTo(44,-113);ctx.lineTo(-44,-113);ctx.closePath();ctx.fill();
   ctx.fillStyle=fighter.trunksLight;ctx.fillRect(-42,-176,12,58);
-  text(ctx,'13',0,-151,22,fighter.shortsStripe||'#e7d9b8');
+  text(ctx,fighter.mark||'RZ',0,-151,22,fighter.shortsStripe||'#e7d9b8');
 
   let left={x:-48,y:-172,s:1,a:-.2},right={x:48,y:-172,s:1,a:.2};
   if(state==='block'){left={x:-25,y:-218,s:1.15,a:0};right={x:25,y:-218,s:1.15,a:0}}
